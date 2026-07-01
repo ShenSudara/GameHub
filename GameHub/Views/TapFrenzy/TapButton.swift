@@ -15,7 +15,7 @@ struct TapButton: View {
     var body: some View {
         ZStack {
             // outer boundary
-            Rectangle()
+            RoundedRectangle(cornerRadius: 18)
                 .fill(
                     RadialGradient(
                         colors: [
@@ -34,7 +34,7 @@ struct TapButton: View {
                 .animation(.easeInOut(duration: 0.15), value: isPressed)
             
             // inner button
-            Rectangle()
+            RoundedRectangle(cornerRadius: 18)
                 .fill(
                     LinearGradient(
                         colors: [

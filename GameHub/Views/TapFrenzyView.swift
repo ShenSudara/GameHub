@@ -13,12 +13,21 @@ struct TapFrenzyView: View {
     @StateObject var tapFrenzyVM: TapFrenzyViewModel = TapFrenzyViewModel()
     
     var body: some View {
-        VStack{
-            Text("Score: \(tapFrenzyVM.getScore())")
+        VStack(spacing: 30){
+            // score card
+            HStack {
+                ScoreCard(title: "Score", value: tapFrenzyVM.getScore())
+            }.padding(.horizontal)
             
-            TapButton(action: {
-                tapFrenzyVM.incrementScore()
-            })
+            // inner container
+            VStack{
+                TapButton(action: {
+                    tapFrenzyVM.incrementScore()
+                })
+                .transition(.scale.combined(with: .opacity))
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            
+            // other buttons
         }
     }
 }
