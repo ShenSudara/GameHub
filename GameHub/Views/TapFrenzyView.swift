@@ -9,61 +9,16 @@ import SwiftUI
 
 // game main view
 struct TapFrenzyView: View {
-    @State private var isPressed: Bool = false
+    // view model for tap frenzy
+    @StateObject var tapFrenzyVM: TapFrenzyViewModel = TapFrenzyViewModel()
     
     var body: some View {
-        ZStack {
-            // outer boundary
-            Rectangle()
-                .fill(
-                    RadialGradient(
-                        colors: [
-                            Color.green.opacity(0.6),
-                            Color.green.opacity(0.2),
-                            Color.clear
-                        ],
-                        center: .center,
-                        startRadius: 10,
-                        endRadius: 120
-                    )
-                )
-                .frame(width: 220, height: 220)
-                .blur(radius: 10)
-                .scaleEffect(isPressed ? 0.9 : 1.0)
-                .animation(.easeInOut(duration: 0.15), value: isPressed)
+        VStack{
+            Text("Score: \(tapFrenzyVM.getScore())")
             
-            // inner button
-            Rectangle()
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            Color.green.opacity(0.9),
-                            Color.green.opacity(0.4),
-                            Color.green.opacity(0.1)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .frame(width: 160, height: 160)
-                .shadow(color: .black.opacity(0.4), radius: 10, x: 0, y: 6)
-                .scaleEffect(isPressed ? 0.92 : 1.0)
-                .animation(.spring(response: 0.25, dampingFraction: 0.6), value: isPressed)
-                .overlay(
-                    Text("Tap Me")
-                        .font(.system(size: 28, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
-                        .tracking(2)
-                        .scaleEffect(isPressed ? 0.9 : 1.0)
-                        .animation(.spring(response: 0.25, dampingFraction: 0.6), value: isPressed)
-                )
-        }.onTapGesture{
-            isPressed = true
-            
-            // reset the animation state
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                isPressed = false
-            }
+            TapButton(action: {
+                tapFrenzyVM.incrementScore()
+            })
         }
     }
 }
