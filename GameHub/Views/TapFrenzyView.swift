@@ -17,7 +17,7 @@ struct TapFrenzyView: View {
             // score card
             HStack {
                 TimerCard(time: tapFrenzyVM.getRemainingTime())
-                ScoreCard(title: "Score", value: tapFrenzyVM.getScore())
+                ScoreCard(title: "Score", value: tapFrenzyVM.getScore(), isMultiplying: tapFrenzyVM.isMultiplying())
             }.padding(.horizontal)
             
             // inner container
@@ -28,7 +28,7 @@ struct TapFrenzyView: View {
                 .transition(.scale.combined(with: .opacity))
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
             
-            // other buttons
+            // start button
             if !tapFrenzyVM.isGameActive() && tapFrenzyVM.getRemainingTime() == TapFrenzyModel.totalTime {
                 Button(action: {
                     tapFrenzyVM.startGame()

@@ -17,7 +17,24 @@ final class TapFrenzyViewModel: ObservableObject {
     // increase the game score
     func incrementScore() {
         guard model.isGameActive else { return }
-        model.score += 1
+        
+        let currentTime = Date()
+        if self.model.lastTapTime != nil{
+            let interval = currentTime.timeIntervalSince(self.model.lastTapTime!)
+            if interval <= 0.5 {
+                self.model.multiplier += 1
+                self.model.isMultiplying = true
+            } else {
+                self.model.multiplier = 1
+                self.model.isMultiplying = false
+            }
+        }else{
+            self.model.multiplier = 1
+            self.model.isMultiplying = false
+        }
+        
+        model.score += self.model.multiplier
+        model.lastTapTime = currentTime
     }
         
     // start the game
@@ -32,9 +49,21 @@ final class TapFrenzyViewModel: ObservableObject {
 
             if self.model.timeRemaining > 0 {
                 self.model.timeRemaining -= 1
+                
+                //check the multiplier when time counting
+                guard self.model.lastTapTime != nil else { return }
+                if Date().timeIntervalSince(self.model.lastTapTime!) > 0.5 {
+                    self.model.multiplier = 1
+                    self.model.isMultiplying = false
+                }
             } else {
                 self.stopTimer()
                 self.model.isGameActive = false
+                
+                // after game end reset multiplier
+                self.model.multiplier = 1
+                self.model.isMultiplying = false
+                self.model.lastTapTime = nil
             }
         }
     }
@@ -47,6 +76,9 @@ final class TapFrenzyViewModel: ObservableObject {
         model.score = 0
         model.timeRemaining = TapFrenzyModel.totalTime
         model.isGameActive = false
+        model.lastTapTime = nil
+        model.multiplier = 1
+        model.isMultiplying = false
     }
     
     // stop the timer
@@ -68,5 +100,10 @@ final class TapFrenzyViewModel: ObservableObject {
     // get is game active
     func isGameActive() -> Bool {
         return model.isGameActive
+    }
+    
+    // get isMultiplying
+    func isMultiplying() -> Bool {
+        return model.isMultiplying
     }
 }
