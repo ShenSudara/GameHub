@@ -22,10 +22,21 @@ struct TapFrenzyView: View {
             
             // inner container
             VStack{
-                TapButton(action: {
-                    tapFrenzyVM.incrementScore()
-                })
-                .transition(.scale.combined(with: .opacity))
+                // if game is active show tap button otherwise show game overview
+                if(tapFrenzyVM.isGameActive() || tapFrenzyVM.isGameReset){
+                    TapButton(action: {
+                        tapFrenzyVM.incrementScore()
+                    })
+                    .transition(.scale.combined(with: .opacity))
+                }else{
+                    GameOverView(
+                        score: tapFrenzyVM.getScore(),
+                        highScore: tapFrenzyVM.getHighScore(),
+                        onRestart: {
+                            tapFrenzyVM.resetGame()
+                        }
+                    )
+                }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
             
             // start button

@@ -11,7 +11,7 @@ import Combine
 // view model class for tap frenzy
 final class TapFrenzyViewModel: ObservableObject {
     @Published private var model = TapFrenzyModel()
-    
+    @Published var isGameReset: Bool = true // show, hide gameoverview
     private var timer: Timer?
     
     // increase the game score
@@ -41,6 +41,7 @@ final class TapFrenzyViewModel: ObservableObject {
     func startGame() {
         // stop the timer if there any inprogress
         resetGame()
+        isGameReset = false
         model.isGameActive = true
 
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
@@ -64,7 +65,17 @@ final class TapFrenzyViewModel: ObservableObject {
                 self.model.multiplier = 1
                 self.model.isMultiplying = false
                 self.model.lastTapTime = nil
+                
+                // update the high score
+                updateHighScore()
             }
+        }
+    }
+    
+    // high score update logic
+    func updateHighScore() {
+        if model.score > model.highScore{
+            model.highScore = model.score
         }
     }
     
@@ -79,6 +90,7 @@ final class TapFrenzyViewModel: ObservableObject {
         model.lastTapTime = nil
         model.multiplier = 1
         model.isMultiplying = false
+        isGameReset = true
     }
     
     // stop the timer
@@ -90,6 +102,11 @@ final class TapFrenzyViewModel: ObservableObject {
     // get the game score
     func getScore() -> Int {
         return model.score
+    }
+    
+    // get the game high score
+    func getHighScore() -> Int {
+        return model.highScore
     }
     
     // get the remaining time

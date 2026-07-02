@@ -16,6 +16,7 @@ struct TapFrenzyModel {
     var score: Int = 0
     var timeRemaining: Int = totalTime
     var isGameActive: Bool = false
+    var highScore: Int = 0
     var multiplier: Int = 1
     var isMultiplying: Bool = false
     var lastTapTime: Date?
