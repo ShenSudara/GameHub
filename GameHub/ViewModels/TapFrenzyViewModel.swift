@@ -13,6 +13,7 @@ final class TapFrenzyViewModel: ObservableObject {
     @Published private var model = TapFrenzyModel()
     @Published var isGameReset: Bool = true // show, hide gameoverview
     private var timer: Timer?
+    private var colorTimer: Timer?
     
     // increase the game score
     func incrementScore() {
@@ -33,7 +34,19 @@ final class TapFrenzyViewModel: ObservableObject {
             self.model.isMultiplying = false
         }
         
-        model.score += self.model.multiplier
+        // button color change logic and according to color multiplier change logic
+        let currentMultiplier = self.model.multiplier
+        switch self.model.tapButtonColor {
+        case .yellow:
+            self.model.multiplier = currentMultiplier * 2
+            self.model.isMultiplying = self.model.multiplier > 1
+            model.score += self.model.multiplier
+        case .gray:
+            model.score = max(0, model.score - currentMultiplier)
+        case .normal:
+            model.score += currentMultiplier
+        }
+        
         model.lastTapTime = currentTime
     }
         
@@ -43,6 +56,7 @@ final class TapFrenzyViewModel: ObservableObject {
         resetGame()
         isGameReset = false
         model.isGameActive = true
+        model.tapButtonColor = randomButtonColor()
 
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self else { return }
@@ -59,6 +73,7 @@ final class TapFrenzyViewModel: ObservableObject {
                 }
             } else {
                 self.stopTimer()
+                self.stopColorTimer()
                 self.model.isGameActive = false
                 
                 // after game end reset multiplier
@@ -69,6 +84,13 @@ final class TapFrenzyViewModel: ObservableObject {
                 // update the high score
                 updateHighScore()
             }
+        }
+
+        // color timer for color changing
+        colorTimer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: true) { [weak self] _ in
+            guard let self else { return }
+            guard self.model.isGameActive else { return }
+            self.model.tapButtonColor = self.randomButtonColor()
         }
     }
     
@@ -83,6 +105,7 @@ final class TapFrenzyViewModel: ObservableObject {
     func resetGame() {
         //stop the timer if there is any
         stopTimer()
+        stopColorTimer()
         //set the game properties
         model.score = 0
         model.timeRemaining = TapFrenzyModel.totalTime
@@ -90,6 +113,7 @@ final class TapFrenzyViewModel: ObservableObject {
         model.lastTapTime = nil
         model.multiplier = 1
         model.isMultiplying = false
+        model.tapButtonColor = .normal
         isGameReset = true
     }
     
@@ -97,6 +121,17 @@ final class TapFrenzyViewModel: ObservableObject {
     func stopTimer() {
         timer?.invalidate()
         timer = nil
+    }
+
+    // stop the color timer
+    func stopColorTimer() {
+        colorTimer?.invalidate()
+        colorTimer = nil
+    }
+
+    // random button color
+    func randomButtonColor() -> TapFrenzyButtonColor {
+        TapFrenzyButtonColor.allCases.randomElement()!
     }
     
     // get the game score
@@ -122,5 +157,10 @@ final class TapFrenzyViewModel: ObservableObject {
     // get isMultiplying
     func isMultiplying() -> Bool {
         return model.isMultiplying
+    }
+
+    // get the tap button color
+    func getTapButtonColor() -> TapFrenzyButtonColor {
+        return model.tapButtonColor
     }
 }

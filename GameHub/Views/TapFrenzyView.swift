@@ -24,9 +24,12 @@ struct TapFrenzyView: View {
             VStack{
                 // if game is active show tap button otherwise show game overview
                 if(tapFrenzyVM.isGameActive() || tapFrenzyVM.isGameReset){
-                    TapButton(action: {
-                        tapFrenzyVM.incrementScore()
-                    })
+                    TapButton(
+                        action: {
+                            tapFrenzyVM.incrementScore()
+                        },
+                        buttonColor: tapFrenzyVM.getTapButtonColor()
+                    )
                     .transition(.scale.combined(with: .opacity))
                 }else{
                     GameOverView(

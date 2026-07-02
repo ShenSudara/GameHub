@@ -8,6 +8,12 @@
 // tap frenzy game model
 import Foundation
 
+enum TapFrenzyButtonColor: CaseIterable {
+    case normal
+    case yellow
+    case gray
+}
+
 struct TapFrenzyModel {
     // game configurations
     static let totalTime: Int = 10
@@ -20,4 +26,5 @@ struct TapFrenzyModel {
     var multiplier: Int = 1
     var isMultiplying: Bool = false
     var lastTapTime: Date?
+    var tapButtonColor: TapFrenzyButtonColor = .normal
 }

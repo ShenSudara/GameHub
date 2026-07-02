@@ -11,6 +11,38 @@ struct TapButton: View {
     @State private var isPressed: Bool = false
     
     let action: () -> Void
+    let buttonColor: TapFrenzyButtonColor
+
+    private var outerColors: [Color] {
+        switch buttonColor {
+        case .yellow:
+            return [Color.yellow.opacity(0.7), Color.yellow.opacity(0.25), Color.clear]
+        case .gray:
+            return [Color.gray.opacity(0.55), Color.gray.opacity(0.18), Color.clear]
+        case .normal:
+            return [Color.green.opacity(0.6), Color.green.opacity(0.2), Color.clear]
+        }
+    }
+
+    private var innerColors: [Color] {
+        switch buttonColor {
+        case .yellow:
+            return [Color.yellow.opacity(0.95), Color.yellow.opacity(0.55), Color.yellow.opacity(0.2)]
+        case .gray:
+            return [Color.gray.opacity(0.9), Color.gray.opacity(0.55), Color.gray.opacity(0.25)]
+        case .normal:
+            return [Color.green.opacity(0.9), Color.green.opacity(0.4), Color.green.opacity(0.1)]
+        }
+    }
+
+    private var textColor: Color {
+        switch buttonColor {
+        case .yellow:
+            return .black
+        case .gray, .normal:
+            return .white
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -18,11 +50,7 @@ struct TapButton: View {
             RoundedRectangle(cornerRadius: 18)
                 .fill(
                     RadialGradient(
-                        colors: [
-                            Color.green.opacity(0.6),
-                            Color.green.opacity(0.2),
-                            Color.clear
-                        ],
+                        colors: outerColors,
                         center: .center,
                         startRadius: 10,
                         endRadius: 120
@@ -37,11 +65,7 @@ struct TapButton: View {
             RoundedRectangle(cornerRadius: 18)
                 .fill(
                     LinearGradient(
-                        colors: [
-                            Color.green.opacity(0.9),
-                            Color.green.opacity(0.4),
-                            Color.green.opacity(0.1)
-                        ],
+                        colors: innerColors,
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
@@ -53,7 +77,7 @@ struct TapButton: View {
                 .overlay(
                     Text("Tap Me")
                         .font(.system(size: 28, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
+                        .foregroundColor(textColor)
                         .tracking(2)
                         .scaleEffect(isPressed ? 0.9 : 1.0)
                         .animation(.spring(response: 0.25, dampingFraction: 0.6), value: isPressed)
@@ -75,5 +99,5 @@ struct TapButton: View {
 #Preview {
     TapButton(action:{
         print("Tap button is clicked")
-    })
+    }, buttonColor: TapFrenzyButtonColor.yellow)
 }
