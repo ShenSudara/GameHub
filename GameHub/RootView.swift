@@ -7,11 +7,14 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct RootView: View {
     var body: some View {
+        NavigationStack {
+            HomeView()
+        }
     }
 }
 
 #Preview {
-    ContentView()
+    RootView()
 }
