@@ -16,6 +16,7 @@ struct TapFrenzyView: View {
         VStack(spacing: 30){
             // score card
             HStack {
+                TimerCard(time: tapFrenzyVM.getRemainingTime())
                 ScoreCard(title: "Score", value: tapFrenzyVM.getScore())
             }.padding(.horizontal)
             
@@ -28,7 +29,24 @@ struct TapFrenzyView: View {
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
             
             // other buttons
+            if !tapFrenzyVM.isGameActive() && tapFrenzyVM.getRemainingTime() == TapFrenzyModel.totalTime {
+                Button(action: {
+                    tapFrenzyVM.startGame()
+                }) {
+                    Text("Start Game")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.green.opacity(0.8))
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .padding(.horizontal)
+                }
+                .transition(.move(edge: .bottom))
+            }
         }
+        .padding(.vertical)
+        .animation(.easeInOut(duration: 0.3), value: tapFrenzyVM.isGameActive())
     }
 }
 

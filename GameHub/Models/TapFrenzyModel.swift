@@ -9,5 +9,12 @@
 import Foundation
 
 struct TapFrenzyModel {
+    // game configurations
+    static let totalTime: Int = 10
+    
+    // game properties
     var score: Int = 0
+    var timeRemaining: Int = totalTime
+    var isGameActive: Bool = false
+    
 }
