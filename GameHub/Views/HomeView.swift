@@ -35,6 +35,16 @@ struct HomeView: View {
                         color: .green
                     )
                 }
+                
+                // quick tap game
+                NavigationLink(destination: QuickTapView()) {
+                    HomeCard(
+                        title: "Quick Tap",
+                        subtitle: "Test your eye",
+                        icon: "square.grid.3x3",
+                        color: .blue
+                    )
+                }
             }
             .padding(.horizontal)
             
