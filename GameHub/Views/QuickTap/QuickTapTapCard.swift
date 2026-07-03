@@ -13,6 +13,8 @@ struct QuickTapTapCard: View {
     let color: Color
     let action: () -> Void
     
+    @State private var isPressed = false
+    
     var body: some View {
         RoundedRectangle(cornerRadius: 14, style: .continuous)
             .fill(isActive ? color.opacity(0.9) : Color.gray.opacity(0.2))
@@ -29,17 +31,23 @@ struct QuickTapTapCard: View {
                 x: 0,
                 y: 6
             )
-            .scaleEffect(isActive ? 1.08 : 1.0)
-            .frame(height: 55)
+            .scaleEffect(isPressed ? 0.95 : 1.0)
+            .frame(height: 100)
             .contentShape(RoundedRectangle(cornerRadius: 14))
             .animation(
                 .spring(response: 0.35, dampingFraction: 0.7),
-                value: isActive
+                value: isPressed
+            )
+            .animation(
+                .spring(response: 0.35, dampingFraction: 0.7),
+                value: isPressed
             )
             .onTapGesture {
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                    action()
+                isPressed = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                    isPressed = false
                 }
+                action()
             }
     }
 }
@@ -62,4 +70,6 @@ struct QuickTapTapCard: View {
             }
         )
     }
+    .padding()
+    .padding()
 }

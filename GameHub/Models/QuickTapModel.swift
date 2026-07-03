@@ -36,4 +36,5 @@ struct QuickTapModel {
     var gridSize: CGSize =  CGSize(width: 1, height: 3)
     var color: Color = .green
     var isGameActive: Bool = false
+    var highScore: Int = 0
 }

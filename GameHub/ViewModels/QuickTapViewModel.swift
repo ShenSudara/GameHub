@@ -12,6 +12,7 @@ import SwiftUI
 // view model class for quick tap
 final class QuickTapViewModel : ObservableObject{
     @Published private var model: QuickTapModel = QuickTapModel()
+    @Published var isGameReset: Bool = true // show and hide game overview
     // timers
     private var timer: Timer?
     private var cellTimer: Timer?
@@ -19,6 +20,7 @@ final class QuickTapViewModel : ObservableObject{
     // start the game
     func startGame() {
         reset()
+        isGameReset = false
         model.isGameActive = true
         
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
@@ -34,6 +36,7 @@ final class QuickTapViewModel : ObservableObject{
                 self.model.isGameActive = false
                 self.stopTimer()
                 self.stopCellTimer()
+                self.updateHighScore()
             }
         }
         
@@ -91,9 +94,17 @@ final class QuickTapViewModel : ObservableObject{
         self.model.gridSize = CGSize(width: 1, height: 3)
         self.model.activeCells.removeAll()
         self.model.color = .green
+        self.isGameReset = true
         
         stopTimer()
         stopCellTimer()
+    }
+
+    // update the high score
+    func updateHighScore(){
+        if model.score > model.highScore {
+            model.highScore = model.score
+        }
     }
     
     // stop primary timer
@@ -121,6 +132,11 @@ final class QuickTapViewModel : ObservableObject{
     // get score
     func getScore() -> Int{
         return model.score
+    }
+
+    // get high score
+    func getHighScore() -> Int {
+        return model.highScore
     }
     
     // get active cells

@@ -21,23 +21,35 @@ struct QuickTapView: View {
             
             // inner container
             VStack{
-                LazyVGrid(
-                    columns: Array(
-                        repeating: GridItem(.flexible(), spacing: 10),
-                        count: Int(quickTapVM.getGridSize().height)
-                    ),
-                    spacing: 10
-                ) {
-                    ForEach(0..<(Int(quickTapVM.getGridSize().width) * Int(quickTapVM.getGridSize().height)), id: \.self) { index in
-                        QuickTapTapCard(
-                            isActive: quickTapVM.getActiveCells().contains(index),
-                            color: quickTapVM.getColor()
-                        ) {
-                            quickTapVM.tapCell(index)
+                if quickTapVM.isGameActive() || quickTapVM.isGameReset {
+                    LazyVGrid(
+                        columns: Array(
+                            repeating: GridItem(.flexible(), spacing: 10),
+                            count: Int(quickTapVM.getGridSize().height)
+                        ),
+                        spacing: 15
+                    ) {
+                        ForEach(0..<(Int(quickTapVM.getGridSize().width * quickTapVM.getGridSize().height)), id: \.self) { index in
+                            QuickTapTapCard(
+                                isActive: quickTapVM.getActiveCells().contains(index),
+                                color: quickTapVM.getColor()
+                            ) {
+                                quickTapVM.tapCell(index)
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                         }
                     }
+                    .padding(14)
+                    .transition(.scale.combined(with: .opacity))
+                } else {
+                    QuickTapOverView(
+                        score: quickTapVM.getScore(),
+                        highScore: quickTapVM.getHighScore(),
+                        onRestart: {
+                            quickTapVM.reset()
+                        }
+                    )
                 }
-                .padding(14)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.horizontal, 20)
@@ -62,6 +74,7 @@ struct QuickTapView: View {
             }
         }
         .padding(.vertical)
+        .animation(.easeInOut(duration: 0.3), value: quickTapVM.isGameReset)
     }
 }
 
