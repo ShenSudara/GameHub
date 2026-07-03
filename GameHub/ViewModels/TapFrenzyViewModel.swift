@@ -14,6 +14,12 @@ final class TapFrenzyViewModel: ObservableObject {
     @Published var isGameReset: Bool = true // show, hide gameoverview
     private var timer: Timer?
     private var colorTimer: Timer?
+
+    private let highScoreKey = "TapFrenzyHighScore"
+
+    init() {
+        model.highScore = UserDefaults.standard.integer(forKey: highScoreKey)
+    }
     
     // increase the game score
     func incrementScore() {
@@ -98,6 +104,7 @@ final class TapFrenzyViewModel: ObservableObject {
     func updateHighScore() {
         if model.score > model.highScore{
             model.highScore = model.score
+            UserDefaults.standard.set(model.highScore, forKey: highScoreKey)
         }
     }
     
