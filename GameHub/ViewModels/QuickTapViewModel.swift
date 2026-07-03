@@ -16,6 +16,12 @@ final class QuickTapViewModel : ObservableObject{
     // timers
     private var timer: Timer?
     private var cellTimer: Timer?
+
+    private let highScoreKey = "QuickTapHighScore"
+
+    init() {
+        model.highScore = UserDefaults.standard.integer(forKey: highScoreKey)
+    }
     
     // start the game
     func startGame() {
@@ -104,6 +110,7 @@ final class QuickTapViewModel : ObservableObject{
     func updateHighScore(){
         if model.score > model.highScore {
             model.highScore = model.score
+            UserDefaults.standard.set(model.highScore, forKey: highScoreKey)
         }
     }
     
