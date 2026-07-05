@@ -16,6 +16,12 @@ final class QuizRushViewModel: ObservableObject {
     // properties for question loading
     @Published var isLoading = false
     @Published var errorMessage: String?
+
+    private let highScoreKey = "QuizRushHighScore"
+
+    init() {
+        model.highScore = UserDefaults.standard.integer(forKey: highScoreKey)
+    }
     @Published var isGameReset: Bool = true // show and hide game overview
     
     // get the current question
@@ -35,7 +41,6 @@ final class QuizRushViewModel: ObservableObject {
 
         do {
             let (data, _) = try await URLSession.shared.data(from: QuizRushModel.questionURL)
-
             let response = try JSONDecoder().decode(QuizRushQuestionResponseModel.self, from: data)
 
             model.questions = response.results
@@ -95,6 +100,7 @@ final class QuizRushViewModel: ObservableObject {
     func updateHighScore(){
         if model.score > model.highScore {
             model.highScore = model.score
+            UserDefaults.standard.set(model.highScore, forKey: highScoreKey)
         }
     }
 
@@ -104,7 +110,9 @@ final class QuizRushViewModel: ObservableObject {
     }
     
     // get high score
-    func getHighScore() -> Int { model.highScore }
+    func getHighScore() -> Int {
+        model.highScore
+    }
     
     // get is game active
     func isGameActive() -> Bool {
