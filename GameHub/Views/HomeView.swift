@@ -45,6 +45,16 @@ struct HomeView: View {
                         color: .blue
                     )
                 }
+                
+                // quiz rush game
+                NavigationLink(destination: QuizRushView()) {
+                    HomeCard(
+                        title: "Quiz Rush",
+                        subtitle: "Test your brain",
+                        icon: "questionmark.app.fill",
+                        color: .orange
+                    )
+                }
             }
             .padding(.horizontal)
             
