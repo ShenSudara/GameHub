@@ -41,7 +41,6 @@ final class QuizRushViewModel: ObservableObject {
 
         do {
             let (data, _) = try await URLSession.shared.data(from: QuizRushModel.questionURL)
-
             let response = try JSONDecoder().decode(QuizRushQuestionResponseModel.self, from: data)
 
             model.questions = response.results
@@ -111,7 +110,9 @@ final class QuizRushViewModel: ObservableObject {
     }
     
     // get high score
-    func getHighScore() -> Int { model.highScore }
+    func getHighScore() -> Int {
+        model.highScore
+    }
     
     // get is game active
     func isGameActive() -> Bool {
