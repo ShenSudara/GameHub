@@ -16,6 +16,12 @@ final class QuizRushViewModel: ObservableObject {
     // properties for question loading
     @Published var isLoading = false
     @Published var errorMessage: String?
+
+    private let highScoreKey = "QuizRushHighScore"
+
+    init() {
+        model.highScore = UserDefaults.standard.integer(forKey: highScoreKey)
+    }
     @Published var isGameReset: Bool = true // show and hide game overview
     
     // get the current question
@@ -95,6 +101,7 @@ final class QuizRushViewModel: ObservableObject {
     func updateHighScore(){
         if model.score > model.highScore {
             model.highScore = model.score
+            UserDefaults.standard.set(model.highScore, forKey: highScoreKey)
         }
     }
 
