@@ -15,11 +15,11 @@ struct RootView: View {
             // check the application initial flow
             switch viewModel.flowState {
             case .loading:
-                ProgressView("Loading...")
+                // custom splash screen with integrated progress indicator
+                SplashView()
                     .onAppear {
                         viewModel.startLoadingWithDelay()
                     }
-                    .tint(.green)
             case .needsLocationPermission:
                 LocationPermissionView(onClick: {
                     viewModel.locationManager.requestPermission()
