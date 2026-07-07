@@ -9,5 +9,6 @@
 enum AppFlowState {
     case loading
     case needsLocationPermission
+    case needsNotificationPermission
     case goToHome
 }

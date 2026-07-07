@@ -24,6 +24,10 @@ struct RootView: View {
                 LocationPermissionView(onClick: {
                     viewModel.locationManager.requestPermission()
                 })
+            case .needsNotificationPermission:
+                NotificationPermissionView(onClick: {
+                    viewModel.notificationManager.requestPermission()
+                })
             case .goToHome:
                 TabBarView()
             }
