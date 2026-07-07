@@ -54,7 +54,6 @@ struct SettingsView: View {
                 .buttonStyle(.plain)
             }
         }
-        .navigationTitle("Settings")
         .onAppear {
             viewModel.refresh()
         }
