@@ -22,7 +22,6 @@ struct TabBarView: View {
             .tabItem {
                 Label("Stats", systemImage: "chart.bar.fill")
             }
-
             NavigationStack {
                 MapView()
             }
