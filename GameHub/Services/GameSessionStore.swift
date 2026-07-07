@@ -48,7 +48,12 @@ final class GameSessionStore {
         guard let data = defaults.data(forKey: storageKey) else { return [] }
         return (try? decoder.decode([GameSession].self, from: data)) ?? []
     }
-
+    
+    // clear cache
+    func clearCache() {
+        defaults.removeObject(forKey: storageKey)
+    }
+    
     // save the game session information
     private func save(_ sessions: [GameSession]) {
         guard let data = try? encoder.encode(sessions) else { return }
