@@ -42,7 +42,6 @@ struct StatsView: View {
                                     summary: summary,
                                     title: viewModel.displayName(for: summary.mode),
                                     tint: viewModel.color(for: summary.mode),
-                                    maxHighScore: summary.highScore
                                 )
                             }
                         }

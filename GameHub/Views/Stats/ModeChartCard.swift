@@ -12,10 +12,9 @@ struct ModeChartCard: View {
     let summary: GameModeSummary
     let title: String
     let tint: Color
-    let maxHighScore: Int
     
     var body: some View {
-        let barHeight = CGFloat(summary.highScore) / CGFloat(max(maxHighScore, 1)) * 110
+        let barHeight = CGFloat(summary.highScore) / CGFloat(max(summary.totalScore, 1)) * 110
         let visibleBarHeight = max(barHeight, summary.sessionCount > 0 ? 24 : 12)
         
         VStack(alignment: .leading, spacing: 14) {
@@ -61,7 +60,6 @@ struct ModeChartCard: View {
     ModeChartCard(
         summary: GameModeSummary(mode: .quickTap, sessionCount: 10,totalScore: 280, highScore: 820),
         title: "Classic Mode",
-        tint: .blue,
-        maxHighScore: 1000
+        tint: .blue
     )
 }
