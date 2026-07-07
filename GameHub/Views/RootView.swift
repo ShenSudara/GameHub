@@ -25,9 +25,7 @@ struct RootView: View {
                     viewModel.locationManager.requestPermission()
                 })
             case .goToHome:
-                NavigationStack {
-                    HomeView()
-                }
+                TabBarView()
             }
         }
     }
