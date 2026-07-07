@@ -14,7 +14,7 @@ struct HomeView: View {
             // header
             VStack(spacing: 8) {
                 Text("GameHub")
-                    .font(.system(size: 36, weight: .bold, design: .rounded))
+                    .font(.title.bold())
                     .foregroundColor(.green)
                     .tracking(2)
                 

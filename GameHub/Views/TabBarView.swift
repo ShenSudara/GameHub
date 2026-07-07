@@ -18,6 +18,7 @@ struct TabBarView: View {
             }
             NavigationStack {
                 StatsView()
+                    .navigationTitle("Statistics")
             }
             .tabItem {
                 Label("Stats", systemImage: "chart.bar.fill")
@@ -30,6 +31,7 @@ struct TabBarView: View {
             }
             NavigationStack {
                 SettingsView()
+                    .navigationTitle("Settings")
             }
             .tabItem {
                 Label("Settings", systemImage: "gearshape.fill")

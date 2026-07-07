@@ -15,11 +15,7 @@ struct StatsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 // over all performance
-                VStack(alignment: .leading, spacing: 14) {
-                    Text("Statistics")
-                        .font(.title.bold())
-                        .foregroundColor(.green)
-                    
+                VStack(alignment: .leading, spacing: 14) {                    
                     Text("Overall Performance")
                         .font(.title3.bold())
                         .foregroundColor(.primary)
