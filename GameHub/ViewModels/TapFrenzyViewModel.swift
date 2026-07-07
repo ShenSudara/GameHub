@@ -89,6 +89,7 @@ final class TapFrenzyViewModel: ObservableObject {
                 
                 // update the high score
                 updateHighScore()
+                GameSessionStore.shared.recordRoundScore(mode: .tapFrenzy, score: self.model.score)
             }
         }
 
