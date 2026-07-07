@@ -82,6 +82,7 @@ final class QuizRushViewModel: ObservableObject {
         } else {
             model.isGameActive = false
             updateHighScore()
+            GameSessionStore.shared.recordRoundScore(mode: .quizRush, score: model.score)
         }
     }
 

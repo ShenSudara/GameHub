@@ -43,6 +43,7 @@ final class QuickTapViewModel : ObservableObject{
                 self.stopTimer()
                 self.stopCellTimer()
                 self.updateHighScore()
+                GameSessionStore.shared.recordRoundScore(mode: .quickTap, score: self.model.score)
             }
         }
         

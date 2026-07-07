@@ -11,7 +11,7 @@ import Combine
 
 class RootViewViewModel: ObservableObject {
     @Published var flowState: AppFlowState = .loading
-    let locationManager: LocationPermissionManager = LocationPermissionManager()
+    let locationManager: LocationPermissionManager = .shared
     private var cancellables = Set<AnyCancellable>()
     
     // update the application flow

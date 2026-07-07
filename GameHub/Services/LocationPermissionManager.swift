@@ -13,6 +13,8 @@ import Combine
 
 // location manager class for handle location permission
 final class LocationPermissionManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+    static let shared = LocationPermissionManager()
+
     private let manager = CLLocationManager()
     @Published var location: CLLocationCoordinate2D?
     @Published var authorizationStatus: CLAuthorizationStatus?
