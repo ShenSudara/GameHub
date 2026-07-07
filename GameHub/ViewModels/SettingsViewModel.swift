@@ -95,6 +95,11 @@ class SettingsViewModel: ObservableObject {
         }
         UIApplication.shared.open(url)
     }
+    
+    // clear cache
+    func clearCache() {
+        GameSessionStore.shared.clearCache()
+    }
 
     // notification permission status is denied or not
     var notificationsDenied: Bool {

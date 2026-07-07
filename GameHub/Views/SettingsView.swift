@@ -28,19 +28,30 @@ struct SettingsView: View {
 
                 if viewModel.notificationsDenied {
                     VStack(alignment: .leading, spacing: 8) {
-
                         Text(
                             "Notifications are disabled for this app. Please enable them in Settings."
                         )
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
-
-
                         Button("Open Settings") {
                             viewModel.openSettings()
                         }
                     }
                 }
+                
+                Button {
+                    viewModel.clearCache()
+                } label: {
+                    Label("Clear Cache", systemImage: "trash.fill")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(Color.red)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .shadow(color: .red.opacity(0.3), radius: 8, y: 4)
+                }
+                .buttonStyle(.plain)
             }
         }
         .navigationTitle("Settings")
