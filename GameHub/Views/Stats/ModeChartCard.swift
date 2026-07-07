@@ -17,9 +17,9 @@ struct ModeChartCard: View {
         let barHeight = CGFloat(summary.highScore) / CGFloat(max(summary.totalScore, 1)) * 110
         let visibleBarHeight = max(barHeight, summary.sessionCount > 0 ? 24 : 12)
         
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .font(.headline)
+                .font(.headline.bold())
                 .foregroundColor(.primary)
             
             VStack(alignment: .leading, spacing: 8) {
@@ -49,7 +49,7 @@ struct ModeChartCard: View {
             }
         }
         .padding()
-        .frame(width: 190, alignment: .leading)
+        .frame(maxWidth: .infinity, maxHeight: 220 ,alignment: .leading)
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         .shadow(color: .black.opacity(0.06), radius: 12, x: 0, y: 6)
@@ -58,7 +58,7 @@ struct ModeChartCard: View {
 
 #Preview {
     ModeChartCard(
-        summary: GameModeSummary(mode: .quickTap, sessionCount: 10,totalScore: 280, highScore: 820),
+        summary: GameModeSummary(mode: .quickTap, sessionCount: 10,totalScore: 280, highScore: 100),
         title: "Classic Mode",
         tint: .blue
     )

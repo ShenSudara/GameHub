@@ -9,6 +9,7 @@ import SwiftUI
 
 struct StatsView: View {
     @StateObject private var viewModel = StatsViewModel()
+    private let modes : [GameMode] = [.tapFrenzy, .quickTap, .quizRush]
     
     var body: some View {
         ScrollView {
@@ -31,18 +32,42 @@ struct StatsView: View {
                 
                 // charts for game mode
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Mode Overview")
+                    Text("Insights")
+                        .font(.title3.bold())
+                        .foregroundColor(.primary)
+                    
+                    VStack(spacing: 16) {
+                        HStack(spacing: 16) {
+                            ModeChartCard(
+                                summary: viewModel.modeSummaries[0],
+                                title: viewModel.displayName(for: viewModel.modeSummaries[0].mode),
+                                tint: viewModel.color(for: viewModel.modeSummaries[0].mode)
+                            )
+                            
+                            ModeChartCard(
+                                summary: viewModel.modeSummaries[1],
+                                title: viewModel.displayName(for: viewModel.modeSummaries[1].mode),
+                                tint: viewModel.color(for: viewModel.modeSummaries[1].mode)
+                            )
+                        }
+                        ModeChartCard(
+                            summary: viewModel.modeSummaries[2],
+                            title: viewModel.displayName(for: viewModel.modeSummaries[2].mode),
+                            tint: viewModel.color(for: viewModel.modeSummaries[2].mode)
+                        )
+                    }
+                }
+                
+                // charts for game mode
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Daily Trends")
                         .font(.title3.bold())
                         .foregroundColor(.primary)
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 16) {
-                            ForEach(viewModel.modeSummaries) { summary in
-                                ModeChartCard(
-                                    summary: summary,
-                                    title: viewModel.displayName(for: summary.mode),
-                                    tint: viewModel.color(for: summary.mode),
-                                )
+                            ForEach(modes, id: \.self) { mode in
+                                ModeSummaryCard(mode: mode, sessions: viewModel.sessions.filter { $0.mode == mode })
                             }
                         }
                         .padding(.vertical, 4)
@@ -79,3 +104,4 @@ struct StatsView: View {
 #Preview {
     StatsView()
 }
+
